@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="52c886b8ca324527b76cc0e9ae6344df" Name="Diagram1" ZoomLevel="83">
+        <EntityTypeShape EntityType="DE3Model.Manufacturer" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DE3Model.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DE3Model.OrderStatus" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DE3Model.PickUpPoint" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DE3Model.Product" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DE3Model.ProductsInOrder" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="DE3Model.FK_Product_Manufacturer" ManuallyRouted="false" />
+        <AssociationConnector Association="DE3Model.FK_Order_OrderStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="DE3Model.FK_Order_PickUpPoint" ManuallyRouted="false" />
+        <AssociationConnector Association="DE3Model.FK_ProductsInOrder_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="DE3Model.FK_ProductsInOrder_Product" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DE3Model.sysdiagrams" Width="1.5" PointX="3.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
