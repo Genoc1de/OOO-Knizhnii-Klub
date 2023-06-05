@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
 
 namespace OOO_Knizhnii_Klub
 {
@@ -40,6 +42,8 @@ namespace OOO_Knizhnii_Klub
                 errors.AppendLine("Укажите название продукта");
             if (string.IsNullOrWhiteSpace(_currentProduct.Description))
                 errors.AppendLine("Добавьте описание продукта");
+            if (_currentProduct.Discount < 0 || _currentProduct.Discount > 100)
+                errors.AppendLine("Процент скидки может составлять не может быть отрицательным или больше 100");
 
             if (errors.Length > 0)
             {
@@ -60,5 +64,7 @@ namespace OOO_Knizhnii_Klub
                 MessageBox.Show(ex.Message.ToString());
             }
         }
+
+
     }
 }

@@ -20,15 +20,16 @@ namespace OOO_Knizhnii_Klub
             : base("name=DE3Entities")
         {
         }
-        
+
         public static DE3Entities GetContext()
         {
             if (_context == null)
+            {
                 _context = new DE3Entities();
-
+            }
             return _context;
         }
-        
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

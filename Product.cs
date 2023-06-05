@@ -30,16 +30,19 @@ namespace OOO_Knizhnii_Klub
         public string AuthorProduct { get; set; }
         public byte[] Image { get; set; }
 
-        public string ImgPath { 
-        
-            get { 
-                
+
+        public string ImgPath
+        {
+
+            get
+            {
+
                 return "/Resources/" + this.Name + ".jpg";
-                
+
             }
         }
 
-      
+
         public string FullViewPrice
         {
             get
@@ -69,6 +72,7 @@ namespace OOO_Knizhnii_Klub
                 }
             }
         }
+
 
         public virtual Manufacturer Manufacturer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

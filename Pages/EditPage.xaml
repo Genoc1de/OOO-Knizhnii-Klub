@@ -40,7 +40,6 @@
         <ComboBox SelectedItem="{Binding Manufacturer}" DisplayMemberPath="Name" x:Name="ComboManufacturer" Grid.Row="4" Grid.Column="2"  Height="30" Width="300" HorizontalAlignment="Left"></ComboBox>
         <TextBox Text="{Binding AuthorProduct}" Grid.Row="5" Grid.Column="2" Height="30" Width="300" HorizontalAlignment="Left"></TextBox>
         <TextBox Text="{Binding ProductQuantity}" Grid.Row="6" Grid.Column="2" Height="30" Width="300" HorizontalAlignment="Left"></TextBox>
-
         <Button Grid.Row="8" Grid.ColumnSpan="2" Content="Сохранить" Name="BtnSave" Click="BtnSave_Click" Width="150"></Button>
 
 
