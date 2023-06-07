@@ -24,11 +24,9 @@ namespace OOO_Knizhnii_Klub.Pages
     public partial class OrderView : Page
     {
 
-        private DE3Entities _context = new DE3Entities();
         Order order;
         List<ProductsInOrder> productsInOrder;
-
-
+        
         decimal allProductPrice;
         decimal allProductAmount;
         public OrderView(List<Product> products)
@@ -67,16 +65,22 @@ namespace OOO_Knizhnii_Klub.Pages
 
         private void CalculShowPriceAmount(List<ProductsInOrder> productList)
         {
+            allProductPrice = 0; // Сбрасываем значение перед расчетом новой суммы
+            allProductAmount = 0; // Сбрасываем значение перед расчетом новой суммы
+
             foreach (var product in productList)
             {
-                allProductPrice += product.Product.Price * product.QuantityProducts;
+                decimal productTotalPrice = product.Product.Price * product.QuantityProducts;
+                allProductPrice += productTotalPrice;
+
                 if (product.Product.Discount != null)
                 {
-                    allProductPrice += Convert.ToDecimal(product.Product.Price - ((product.Product.Price / 100) * product.Product.Discount));
-                    allProductAmount += Convert.ToDecimal(product.Product.Discount);
+                    decimal discountAmount = (decimal)(productTotalPrice - ((productTotalPrice / 100) * product.Product.Discount));
+                    allProductAmount += discountAmount;
                 }
             }
-            ProductAmountTB.Text = $"{allProductAmount.ToString()}%";
+
+            ProductAmountTB.Text = $"{allProductAmount.ToString()}";
             ProductPriceTB.Text = $"{allProductPrice.ToString()}";
         }
 
@@ -133,10 +137,30 @@ namespace OOO_Knizhnii_Klub.Pages
                     DE3Entities.GetContext().ProductsInOrder.Add(newOrderProduct);
                 }
                 DE3Entities.GetContext().SaveChanges();
-                CreateTalon(newOrder, productsInOrder);
 
+                // Формирование сообщения с информацией о заказе и списком товаров
+                StringBuilder messageBuilder = new StringBuilder();
+                messageBuilder.AppendLine("Заказ оформлен");
+                messageBuilder.AppendLine($"Номер заказа: {newOrder.ID}");
+                messageBuilder.AppendLine($"Дата доставки: {newOrder.DeliveryDate}");
+                messageBuilder.AppendLine($"Пункт выдачи: {((PickUpPoint)PickUpPointCB.SelectedItem).Name}");
+                messageBuilder.AppendLine($"Код получения: {newOrder.PickUpCode}");
+
+                messageBuilder.AppendLine("\nСписок товаров в заказе:");
+                foreach (var item in productsInOrder)
+                {
+                    var product = DE3Entities.GetContext().Product.FirstOrDefault(p => p.ID == item.ProductID);
+                    messageBuilder.AppendLine($"{product.Name} - {item.QuantityProducts} шт.");
+                }
+
+                string message = messageBuilder.ToString();
+
+                MessageBox.Show(message, "Информация о заказе", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            MessageBox.Show("Заказ оформлен");
+            else
+            {
+                MessageBox.Show("Выберите пункт выдачи.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private DateTime DeliveryDate(List<ProductsInOrder> oProductList)
         {
@@ -157,51 +181,6 @@ namespace OOO_Knizhnii_Klub.Pages
             return DateTime.Now.AddDays(3);
 
         }
-        private void CreateTalon(Order order, List<ProductsInOrder> productsInOrders)
-        {
-            // Создание документа PDF
-            iTextSharp.text.Document doc = new iTextSharp.text.Document();
-            string filePath = "C:/Users/Rocket/Downloads/OrderReceipt.pdf"; // Путь для сохранения файла
-            iTextSharp.text.pdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
-
-            doc.Open();
-
-            // Добавление заголовка
-            iTextSharp.text.Paragraph title = new iTextSharp.text.Paragraph("Талон заказа");
-            title.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
-            doc.Add(title);
-
-            // Создание таблицы для отображения информации о заказе
-            PdfPTable table = new PdfPTable(2); // 2 столбца
-
-            // Добавление информации о заказе в таблицу
-            table.AddCell("Номер заказа");
-            table.AddCell(order.ID.ToString());
-
-            table.AddCell("Список продуктов");
-            foreach (var item in productsInOrders)
-            {
-                table.AddCell(item.Product.Name);
-            }
-
-            table.AddCell("Цена");
-            table.AddCell(allProductPrice.ToString());
-
-            table.AddCell("Скидка");
-            table.AddCell(allProductAmount.ToString());
-
-            table.AddCell("Пункт выдачи");
-            table.AddCell(DE3Entities.GetContext().PickUpPoint.Where(x => x.ID == order.PickUpPointID).FirstOrDefault().Name);
-
-            table.AddCell("Код получения");
-            table.AddCell(order.PickUpCode.ToString());
-
-            // Добавление таблицы в документ
-            doc.Add(table);
-
-            doc.Close();
-
-            MessageBox.Show("Талон заказа сохранен в файл " + filePath + ".");
-        }
+       
     }
 }

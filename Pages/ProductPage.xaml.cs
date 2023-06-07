@@ -21,8 +21,6 @@ namespace OOO_Knizhnii_Klub
     public partial class ProductPage : Page
     {
         List<Product> products;
-        List<ProductsInOrder> productsInOrder;
-        Order order;
 
         public Visibility ShowOrderVisivle
         {
@@ -34,7 +32,6 @@ namespace OOO_Knizhnii_Klub
                 }
                 return Visibility.Hidden;
             }
-            set { }
         }
 
         public ProductPage()
