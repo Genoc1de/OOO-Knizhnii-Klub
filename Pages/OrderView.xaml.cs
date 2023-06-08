@@ -12,9 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System.IO;
+
 
 namespace OOO_Knizhnii_Klub.Pages
 {
